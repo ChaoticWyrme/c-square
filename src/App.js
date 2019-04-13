@@ -4,6 +4,7 @@ import "./App.css";
 import Events from "./Events";
 import Volunteer from "./Volunteer";
 import User from "./subcomponents/User/User";
+import Orgs from "./subcomponents/Orgs/Orgs";
 
 class App extends Component {
   render() {
@@ -42,6 +43,7 @@ function Home() {
   return (
     <div>
       <User user={user} />
+      <Orgs orgs={orgs}/>
     </div>
   );
 }
@@ -53,4 +55,16 @@ const user = {
   interests: ["swimming", "dancing", "coding", "breathing", "laughing"],
   skills: ["html", "html2", "Assembly", "memes"]
 };
+
+const orgs = [{
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Profit",
+    missionStatement:"We help people",
+    neededSkills:["Helpful People","JS"]
+},{
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}];
 export default App;
