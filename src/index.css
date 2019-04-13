@@ -1,0 +1,15 @@
+*, *::after {
+box-sizing: border-box;
+}
+
+.container {
+display: flex;
+}
+
+.hidden {
+display: none;
+}
+
+body {
+font-family: 'Helvetica Neue', Arial, sans-serif;
+}
