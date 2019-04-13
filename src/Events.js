@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import './Events.css';
+import React, { Component } from "react";
+import "./Events.css";
 
 class Events extends Component {
   render() {
     return (
       <div>
-        <Event></Event>
+        <Event />
       </div>
-    )
+    );
   }
 }
 
@@ -17,7 +17,7 @@ class Event extends Component {
       <div>
         <h4>{this.title}</h4>
       </div>
-    )
+    );
   }
 }
 
