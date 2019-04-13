@@ -1,11 +1,11 @@
-var sqlite = require('sqlite');
-var db = new sqlite.Database('data.db')
+var sqlite = require("sqlite");
+var db = new sqlite.Database("data.db");
 
 startingID = {
   events,
   organizations,
   users
-}
+};
 
 db.serialize().then(() => {
   db.run(`CREATE TABLE events (
@@ -14,7 +14,7 @@ db.serialize().then(() => {
       description TEXT,
       date NUMERIC,
       organization INT NOT NULL
-    );`)
+    );`);
   db.run(`CREATE TABLE organizations (
     id TEXT NOT NULL,
     username TEXT NOT NULL
@@ -22,31 +22,31 @@ db.serialize().then(() => {
     description TEXT,
     dateCreated NUMERIC,
     tags STRING
-  );`)
+  );`);
   db.run(`CREATE TABLE users (
     id TEXT NOT NULL,
     username TEXT,
     interests TEXT,
     plannedEvents TEXT,
     dateCreated NUMERIC
-  );`)
-  db.get('SELECT MAX(id) from events;').then((id) => {
-    if(typeof id === 'undefined') return;
+  );`);
+  db.get("SELECT MAX(id) from events;").then(id => {
+    if (typeof id === "undefined") return;
     startingID.events = rows[0] + 1;
   });
-  db.get('SELECT MAX(id) from organizations;').then((id) => {
-    if (typeof id === 'undefined') return;
+  db.get("SELECT MAX(id) from organizations;").then(id => {
+    if (typeof id === "undefined") return;
     startingID.organizations = rows[0] + 1;
-  })
-  db.get('SELECT MAX(id) from users').then((id) => {
-    if (typeof id === 'undefined') return;
+  });
+  db.get("SELECT MAX(id) from users").then(id => {
+    if (typeof id === "undefined") return;
     startingID.users = rows[0] + 1;
-  })
-})
+  });
+});
 
 function* idGen(start) {
   var nextID = start;
-  while(true) {
+  while (true) {
     yield nextID;
     nextID++;
   }
@@ -62,9 +62,10 @@ function createOrganization(data) {
   var params = {};
   for (let [key, data] of data.entries()) {
     // changes key into $key so that they can be used as params
-    params['$' + key] = data;
+    params["$" + key] = data;
   }
-  db.run(`INSERT INTO organizations (id,username,name,description,dateCreated,tags)
+  db.run(
+    `INSERT INTO organizations (id,username,name,description,dateCreated,tags)
   VALUES (
     $id,
     $username,
@@ -72,7 +73,9 @@ function createOrganization(data) {
     $description,
     $dateCreated,
     $tags
-  );`, params);
+  );`,
+    params
+  );
 }
 
 function createUser(data) {
@@ -81,16 +84,19 @@ function createUser(data) {
   var params = {};
   for (let [key, data] of data.entries()) {
     // changes key into $key so that they can be used as params
-    params['$' + key] = data;
+    params["$" + key] = data;
   }
-  db.run(`INSERT INTO users (id,username,interests,plannedEvents,dateCreated)
+  db.run(
+    `INSERT INTO users (id,username,interests,plannedEvents,dateCreated)
   VALUES (
     $id,
     $username,
     $interests,
     $plannedEvents,
     $dateCreated
-  );`, params);
+  );`,
+    params
+  );
 }
 
 function createEvent(data) {
@@ -99,38 +105,41 @@ function createEvent(data) {
   var params = {};
   for (let [key, data] of data.entries()) {
     // changes key into $key so that they can be used as params
-    params['$' + key] = data;
+    params["$" + key] = data;
   }
-  db.run(`INSERT INTO events (id,title,description,date,organization)
+  db.run(
+    `INSERT INTO events (id,title,description,date,organization)
   VALUES (
     $id,
     $title,
     $description,
     $date,
     $organization
-  );`, params);
+  );`,
+    params
+  );
 }
 
 function searchOrganizations(query) {
-  return db.all('SELECT (id, name) FROM organizations LIKE $search', {
-    $search: query + '?'
-  })
+  return db.all("SELECT (id, name) FROM organizations LIKE $search", {
+    $search: query + "?"
+  });
 }
 
 function getEventsByOrganization(orgID, next) {
-  return db.all('SELECT id FROM events WHERE organization=?;', orgID)
-  .then(formatEvents)
+  return db
+    .all("SELECT id FROM events WHERE organization=?;", orgID)
+    .then(formatEvents);
 }
 
 function formatEvents(ids) {
   // takes in array of event ids
-  // outputs object 
+  // outputs object
   var events = [];
   for (let id of ids) {
-    events.push(getEvent(id))
+    events.push(getEvent(id));
   }
-  Promise.all(events)
-  .then((events) => {
+  Promise.all(events).then(events => {
     var orgIDS = [];
     for (let event of events) {
       // get the organization ids in the events
@@ -139,34 +148,43 @@ function formatEvents(ids) {
       }
     }
     var orgs = {};
-    var orgPromises
+    var orgPromises;
     for (let id of orgIDS) {
-      orgPromises.push(getOrganization(id))
+      orgPromises.push(getOrganization(id));
     }
-    Promise.all(orgPromises).then((orgObjects) =>{
+    Promise.all(orgPromises).then(orgObjects => {
       for (let org of orgObjects) {
         orgs[org.id] = org;
       }
       for (let event of events) {
-        event.organization = org[events.organization]
+        event.organization = org[events.organization];
       }
       return events;
-    })
-  })
+    });
+  });
 }
 
 function getEvent(id) {
-  return db.get('SELECT (id, title, description, date, organization) FROM events WHERE id=?', id);
+  return db.get(
+    "SELECT (id, title, description, date, organization) FROM events WHERE id=?",
+    id
+  );
 }
 
 function getOrganization(id) {
-  return db.get(`SELECT (
+  return db.get(
+    `SELECT (
     id, username, name, description, dateCreated, tags
-    ) FROM organizations WHERE id=?`, id);
+    ) FROM organizations WHERE id=?`,
+    id
+  );
 }
 
 function getUser(id) {
-  return db.get(`SELECT (
+  return db.get(
+    `SELECT (
     id, username, interests, plannedEvents, dateCreated
-    ) FROM users WHERE id=?`, id)
+    ) FROM users WHERE id=?`,
+    id
+  );
 }

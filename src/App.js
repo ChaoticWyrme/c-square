@@ -47,10 +47,10 @@ function Home() {
 }
 
 const user = {
-  name: "damian barrous",
+  name: "Damian Barrous",
   image: "https://via.placeholder.com/150",
   bio: "Hey I'm Damian, I'm cool!",
-  interests: ["swimming", "dancing", "coding"],
-  skills: ["html", "html2", "Assembly"]
+  interests: ["swimming", "dancing", "coding", "breathing", "laughing"],
+  skills: ["html", "html2", "Assembly", "memes"]
 };
 export default App;
