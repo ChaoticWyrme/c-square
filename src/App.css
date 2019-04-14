@@ -11,24 +11,113 @@
   font-size: calc(10px + 2vmin);
 }
 
-.home {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas: "userComponent orgs orgs orgs" "userComponent orgs orgs orgs" "userComponent orgs orgs orgs";
+html, body { height: 100%; }
+
+#root{
+  background-color: #770097;
+  height: 100%;
 }
 
-.userComponent { grid-area: userComponent; }
+
+.home {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:  "userComponent orgs orgs orgs orgs" "userComponent orgs orgs orgs orgs" "userComponent orgs orgs orgs orgs";
+}
+
+.userComponent {
+  grid-area: userComponent;
+  background-color: #770097;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  color:white;
+
+}
+
+.Navigation{
+  width: 100%;
+  text-align: right;
+  height: 40vh;
+
+}
+
+.Navigation ul{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  height: 40vh;
+
+}
+
+.Navigation li{
+
+  list-style-type: none;
+  font-size: 2rem;
+  line-height: 0px;
+  font-weight: bold;
+  height: 4rem;
+  margin-right: 30px;
+
+
+
+
+
+}
+
+
+.Navigation li a:visited{
+  color: white;
+  transition:2s;
+}
+
+.Navigation li a:visited:hover{
+  color: #009778;
+
+}
+
+
+.userInfo{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  bottom: 50px;
+
+
+}
+
+.userName{
+  position: relative;
+  bottom: 15px;
+
+}
+.userComponent img{
+  border-radius:150px;
+  border: 6px solid #009778;
+}
+
 
 .orgs { grid-area: orgs;
       display: flex;
-
+      width:100%;
       flex-wrap: wrap;
       align-content: space-around;
       justify-content: space-around;
       padding: 20px;
+      background-color:white;
 
 
+.pageHeader div{
+  width: 100vw;
+
+}
 
 }
 #ui:first-child{

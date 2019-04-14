@@ -6,9 +6,9 @@ function User(props) {
   var {image, name} = props.user;
 
   return (
-    <div className={"userComponent"}>
+    <div className={"userComponent"} style={{position:"sticky"}}>
       <div className={"userInfo"}>
-      <img src={image} alt={"user"} />
+      <img src={image} alt={"user"} style={{height:"150px", width:"150px"}}/>
       <h1 className={"userName"}>{name}</h1>
     </div>
       <Navigation />
