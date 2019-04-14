@@ -196,11 +196,35 @@ function getOrganization(id) {
   return db.get(`SELECT * FROM organizations WHERE id=?`, id).catch(errorHandler);
 }
 
+function getOrganizationByName(username) {
+  return db.get('SELECT * FROM organizations WHERE username=?', username).catch(errorHandler);
+}
+
 function getUser(id) {
-  return db.get(
-    `SELECT * FROM users WHERE id=?;`,
-    id
-  ).catch(errorHandler)
+  return db.get(`SELECT * FROM users WHERE id=?;`,id)
+  .catch(errorHandler)
+}
+
+function getUserByName(username) {
+  return db.get('SELECT * FROM users WHERE username=?;', username).catch(errorHandler)
+}
+
+function getAllOrganizations() {
+  return db.get(`SELECT * FROM organizations`).catch(errorHandler)
+}
+
+function getAllUsers() {
+  return db.get('SELECT * FROM users').catch(errorHandler)
+}
+
+function getAllEvents() {
+  return db.get('SELECT * FROM events').catch(errorHandler)
+}
+
+function searchDatabaseByTag(table, tag) {
+  return db.all(`SELECT * FROM ${table} WHERE tags LIKE "?${tag}?"`, {
+    $tag: tag
+  }).catch(errorHandler)
 }
 
 return {
@@ -210,6 +234,12 @@ return {
   getEvent,
   getEventsByOrganization,
   getOrganization,
+  getOrganizationByName,
   getUser,
-  searchOrganizations
+  getUserByName,
+  searchOrganizations,
+  searchDatabaseByTag,
+  getAllOrganizations,
+  getAllUsers,
+  getAllEvents
 }}

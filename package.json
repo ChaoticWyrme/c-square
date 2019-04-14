@@ -5,7 +5,9 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "body-parser": "^1.18.3",
+    "connect-sqlite3": "^0.9.11",
     "express": "^4.16.4",
+    "express-session": "^1.16.1",
     "prettier": "^1.17.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
