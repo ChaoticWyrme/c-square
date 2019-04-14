@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "./App.css";
 import Events from "./Events";
 import Volunteer from "./Volunteer";
-import User from "./subcomponents/User/User";
-import Orgs from "./subcomponents/Orgs/Orgs";
+import User from "./User";
+import Orgs from "./Orgs";
 
 class App extends Component {
 
