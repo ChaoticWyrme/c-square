@@ -7,6 +7,7 @@ import User from "./subcomponents/User/User";
 import Orgs from "./subcomponents/Orgs/Orgs";
 
 class App extends Component {
+
   render() {
     return (
       <Router>
@@ -41,7 +42,7 @@ function Navigation() {
 
 function Home() {
   return (
-    <div>
+    <div className={"home"}>
       <User user={user} />
       <Orgs orgs={orgs}/>
     </div>
@@ -57,14 +58,103 @@ const user = {
 };
 
 const orgs = [{
+    location: "Boston, Ma",
     companyImage: "https://via.placeholder.com/300",
     companyName:"Non-Profit",
     missionStatement:"We help people",
-    neededSkills:["Helpful People","JS"]
+    neededSkills:["Helpful People","JS"],
+    donate:"https://nonprofit.com",
+    bestFormOfContact: {
+        form:"email",
+        link:"company@gmail.com"
+    }
+
+
 },{
     companyImage: "https://via.placeholder.com/300",
     companyName:"Non-Non-Profit",
     missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"],
+
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
     neededSkills:["Not Helpful People","noJS","PHP"]
-}];
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, {
+    companyImage: "https://via.placeholder.com/300",
+    companyName:"Non-Non-Profit",
+    missionStatement:"We Don't people",
+    neededSkills:["Not Helpful People","noJS","PHP"]
+}, ];
 export default App;

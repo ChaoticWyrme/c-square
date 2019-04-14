@@ -6,7 +6,10 @@ export default class Orgs extends React.Component{
     render(){
         const orgs = this.props.orgs;
         return(
+            <div>
             <div className={"orgs"}>{orgs.map((org,i) => <OrgInfo org={org} key={i}/>)}</div>
+            </div>
+
         )
     }
 }

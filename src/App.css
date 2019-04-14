@@ -10,3 +10,14 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
+
+.home {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: "userComponent orgs orgs orgs" "userComponent orgs orgs orgs" "userComponent orgs orgs orgs";
+}
+
+.userComponent { grid-area: userComponent; }
+
+.orgs { grid-area: orgs; }

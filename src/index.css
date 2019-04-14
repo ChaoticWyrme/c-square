@@ -13,3 +13,14 @@ display: none;
 body {
 font-family: 'Helvetica Neue', Arial, sans-serif;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "userComponent orgs orgs orgs" "userComponent orgs orgs orgs" "userComponent orgs orgs orgs";
+}
+
+.userComponent { grid-area: userComponent; }
+
+.orgs { grid-area: orgs; }
