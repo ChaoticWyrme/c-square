@@ -9,15 +9,13 @@ function User(props) {
       <img src={image} alt={"user"} />
       <h1 className={"userName"}>{name}</h1>
     </div>
-      <TagList user={this.props.user} />
+      <TagList user={props.user} />
     </div>
   );
 }
 
 function TagList(props) {
-  var interests = props.user.interests.map(tag => {
-    <li key={tag}>{tag}</li>
-  })
+  var interests = props.user.interests.map(tag =><li key={tag}>{tag}</li>)
 
   var skills = props.user.skills.map(tag => (
     <li key={tag}>{tag}</li>

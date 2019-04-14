@@ -2,21 +2,23 @@ import React from 'react';
 
 export default class Orgs extends React.Component{
   render(){
-    const orgs = this.props.orgs.map((org, i) => {
-      <OrgInfo org={org} key={org.id || org.name} />
-    });
+
+    const orgs = this.props.orgs.map((org) => <Organization org={org} key={org.id || org.name} />
+    );
     return(
       <div className={"orgs"}>
-        {orgs.map((org,i) => <Organization org={org} key={i}/>)}
+        {orgs}
       </div>
       )
   }
 }
 
 function Organization(props) {
+  console.log(props);
   return (
+
   <div>
-    <img src={props.org.companyImage} alt={props.org.companyName}/>
+    <img src={props.org.companyImage} alt={props.companyName}/>
     <h1 className="companyName">{props.org.companyName}</h1>
       <p className="location">{props.org.location}</p>
       <h2>Our Mission...</h2>
