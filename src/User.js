@@ -36,3 +36,5 @@ function TagList(props) {
     </ul>
   </div>)
 }
+
+export default User;
