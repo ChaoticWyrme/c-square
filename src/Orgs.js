@@ -39,7 +39,7 @@ function Organization(props) {
           <div className="extra content">
               <a href={props.org.donate} ><img src={"/donate.png"} style={{height:"28px"}}/></a>
               <a href={props.org.donate} ><img src={"/volunteer.png"} style={{height:"28px"}}/></a>
-              <a href={props.org.donate} ><img src={"/share.png"} style={{height:"28px"}}/></a>
+              <a href={props.org.donate}><img src={"/share.png"} style={{height:"28px"}}/></a>
           </div>
       </div>
 

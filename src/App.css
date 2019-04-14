@@ -73,11 +73,12 @@ html, body { height: 100%; }
 
 .Navigation li a:visited{
   color: white;
-  transition:2s;
+  transition: color .9s;
 }
 
 .Navigation li a:visited:hover{
   color: #009778;
+
 
 }
 

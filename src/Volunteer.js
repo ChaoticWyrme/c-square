@@ -4,9 +4,9 @@ class Volunteer extends Component {
   render() {
     return (
       <div>
-        Volunteer
+        <img src={"/meme.jpg"} style={{height:"450px"}}/>
       </div>
-    )
+    );
   }
 }
 
