@@ -21,6 +21,12 @@ font-family: 'Helvetica Neue', Arial, sans-serif;
     grid-template-areas: "userComponent orgs orgs orgs" "userComponent orgs orgs orgs" "userComponent orgs orgs orgs";
 }
 
-.userComponent { grid-area: userComponent; }
+.userComponent {
+    grid-area: userComponent;
+    height: 900px;
+    position: sticky;
+    top:0;
+}
 
 .orgs { grid-area: orgs; }
+
