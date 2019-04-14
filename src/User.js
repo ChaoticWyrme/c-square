@@ -1,5 +1,7 @@
 import React from "react";
 
+import {Link} from "react-router-dom";
+
 function User(props) {
   var {image, name} = props.user;
 
@@ -9,7 +11,8 @@ function User(props) {
       <img src={image} alt={"user"} />
       <h1 className={"userName"}>{name}</h1>
     </div>
-      <TagList user={props.user} />
+      <Navigation />
+      {/*<TagList user={props.user} />*/}
     </div>
   );
 }
@@ -33,6 +36,26 @@ function TagList(props) {
       {skills}
     </ul>
   </div>)
+}
+
+function Navigation() {
+  return (
+      <div class="Navigation">
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/events">Events</Link>
+            </li>
+            <li>
+              <Link to="/volunteer">Volunteer</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+  );
 }
 
 export default User;

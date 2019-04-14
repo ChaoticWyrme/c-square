@@ -20,4 +20,21 @@
 
 .userComponent { grid-area: userComponent; }
 
-.orgs { grid-area: orgs; }
+.orgs { grid-area: orgs;
+      display: flex;
+
+      flex-wrap: wrap;
+      align-content: space-around;
+      justify-content: space-around;
+      padding: 20px;
+
+
+
+}
+#ui:first-child{
+margin-top: 1em;
+}
+
+#ui:last-child{
+  margin-bottom: 1em;
+}

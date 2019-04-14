@@ -11,7 +11,6 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Navigation />
         <Route exact path="/" component={Home} />
         <Route path="/events" component={Events} />
         <Route path="/volunteer" component={Volunteer} />
@@ -20,31 +19,13 @@ class App extends Component {
   }
 }
 
-function Navigation() {
-  return (
-    <div class="Navigation">
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/events">Events</Link>
-          </li>
-          <li>
-            <Link to="/volunteer">Volunteer</Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
-}
+
 
 function Home() {
   return (
     <div className={"home"}>
       <User user={user} />
-      <Orgs orgs={orgs}/>
+        <Orgs orgs={orgs}/>
     </div>
   );
 }
@@ -105,7 +86,7 @@ const orgs = [{
 },{
     companyImage: "http://familycontinuity.org/images/dev/images/FC-Logo-2.png",
     companyName: "Family Continuity",
-    missionStatement: "Building on our treatment philosophy that positive change is always possible, ourTherapeutic Day Service Clinician provides clinical treatment and direct care to individuals, their families, and support systems. The position is responsible for providing clinical oversight of staff who work in the program, perform intakes for all new families and youth referred to the program that is inclusive of individuals and families with varying developmental stages, inclusive of all ethnic backgrounds, religions, sexual orientation, genders, and ages.",
+    missionStatement: "Building on our treatment philosophy that positive change is always possible, ourTherapeutic Day Service Clinician provides clinical treatment and direct care to individuals, their families, and support systems.",
     neededSkills: ["Masters in social work, Expierience counseling teens, worked with mental health sector"],
     donate: "http://familycontinuity.org/support-us/donate-now",
     location: "360 Merrimack Street, Bldg. 9, 3rd Floor, Lawrence, MA",
@@ -116,7 +97,7 @@ const orgs = [{
 },{
     companyImage: "http://massnonprofitnet.org/wp-content/uploads/job_listings/BW-Logo.jpg",
     companyName: "Craftsman technology group",
-    missionStatement: "Engaging the non-profit sector. We conduct ourselves with integrity. We value the client’s needs above all else. We strive for quality in everything we do. We support those organizations that support our community. Every day we strive to be: transparent and good, independant and objective, and ultimatly good",
+    missionStatement: "Engaging the non-profit sector.We value the client’s needs above all else. We strive for quality in everything we do. We support those organizations that support our community. Every day we strive to be: transparent and good, independant and objective, and ultimatly good",
     neededSkills: ["commitment to non-profits, salesforce, experience with clients,technical skills"],
     donate: "https://www.wcrf.org/int/donate",
     location: "192 South Street, Boston, MA 02111",
@@ -171,7 +152,7 @@ const orgs = [{
 },{
     companyImage: "http://anikefoundation.org/wp-content/uploads/2014/09/cropped-cropped-anikefoundation_logo02_test2.jpg",
     companyName: "Anike foundation",
-    missionStatement: "We are a community of people that share a common belief that improving education in Africa will eventually reduce poverty and improve the quality of life and living conditions of Africans. Volunteering with us will enable you to build your resume and gain invaluable experience in an environment of supportive people that are always willing to help you.",
+    missionStatement: "We are a community of people that share a common belief that improving education in Africa will eventually reduce poverty and improve the quality of life and living conditions of Africans. Volunteering with us will enable you to build your resume and gain invaluable experience.",
     neededSkills: ["legal advice for african imigrants, heart for Africa, degree in law"],
     donate: "http://anikefoundation.org/index.php/ways-to-give/",
     location: "435 West Boylston, MA",
