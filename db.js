@@ -1,48 +1,59 @@
-var sqlite = require("sqlite");
-var db = new sqlite.Database("data.db");
+module.exports = (db) => {
+
+function errorHandler(error) {
+  throw error;
+}
 
 startingID = {
-  events,
-  organizations,
-  users
+  events: 0,
+  organizations: 0,
+  users: 0
 };
+(async () => {
+  try {
+    await db.run(`CREATE TABLE events (
+        id TEXT NOT NULL,
+        title TEXT,
+        description TEXT,
+        date NUMERIC,
+        organization INT NOT NULL
+      );`);
 
-db.serialize().then(() => {
-  db.run(`CREATE TABLE events (
+    await db.run(`CREATE TABLE organizations (
       id TEXT NOT NULL,
-      title TEXT,
+      username TEXT NOT NULL,
+      name TEXT NOT NULL,
       description TEXT,
-      date NUMERIC,
-      organization INT NOT NULL
+      dateCreated NUMERIC,
+      tags STRING
     );`);
-  db.run(`CREATE TABLE organizations (
-    id TEXT NOT NULL,
-    username TEXT NOT NULL
-    name TEXT NOT NULL,
-    description TEXT,
-    dateCreated NUMERIC,
-    tags STRING
-  );`);
-  db.run(`CREATE TABLE users (
-    id TEXT NOT NULL,
-    username TEXT,
-    interests TEXT,
-    plannedEvents TEXT,
-    dateCreated NUMERIC
-  );`);
-  db.get("SELECT MAX(id) from events;").then(id => {
-    if (typeof id === "undefined") return;
-    startingID.events = rows[0] + 1;
-  });
-  db.get("SELECT MAX(id) from organizations;").then(id => {
-    if (typeof id === "undefined") return;
-    startingID.organizations = rows[0] + 1;
-  });
-  db.get("SELECT MAX(id) from users").then(id => {
-    if (typeof id === "undefined") return;
-    startingID.users = rows[0] + 1;
-  });
-});
+
+    await db.run(`CREATE TABLE users (
+      id TEXT NOT NULL,
+      username TEXT,
+      interests TEXT,
+      plannedEvents TEXT,
+      dateCreated NUMERIC
+    );`);
+
+    await db.get('SELECT MAX(id) from events;').then(id => {
+      if (typeof id === 'undefined') return;
+      startingID.events = id;
+    })
+    
+    await db.get('SELECT MAX(id) from organizations;').then(id => {
+      if (typeof id === 'undefined') return;
+      startingID.organizations = id;
+    })
+    
+    await db.get('SELECT MAX(id) from users').then(id => {
+      if (typeof id === 'undefined') return;
+      startingID.users = id;
+    })
+  } catch(err) {
+    return;
+  }
+})()
 
 function* idGen(start) {
   var nextID = start;
@@ -56,15 +67,26 @@ var orgID = idGen(startingID.organizations);
 var eventID = idGen(startingID.events);
 var userID = idGen(startingID.users);
 
-function createOrganization(data) {
-  data.id = orgID.next();
+async function createOrganization(data) {
+  data.id = orgID.next().value;
   data.dateCreated = Date.now();
+  console.log(data);
   var params = {};
-  for (let [key, data] of data.entries()) {
+  for (let [key, prop] of Object.entries(data)) {
     // changes key into $key so that they can be used as params
-    params["$" + key] = data;
+    params['$' + key] = prop;
   }
-  db.run(
+  var duplicate = await db.get(`SELECT 1 FROM organizations WHERE
+    id=$id OR username=$username OR name=$name`, {
+    $id: data.id,
+    $username: data.username,
+    $name: data.name
+  })
+
+  if (duplicate) {
+    throw new Error('User already exists')
+  }
+  await db.run(
     `INSERT INTO organizations (id,username,name,description,dateCreated,tags)
   VALUES (
     $id,
@@ -73,18 +95,17 @@ function createOrganization(data) {
     $description,
     $dateCreated,
     $tags
-  );`,
-    params
-  );
+  );`, params);
+  return data.id;
 }
 
 function createUser(data) {
-  data.id = userID.next();
+  data.id = userID.next().value;
   data.dateCreated = Date.now();
   var params = {};
   for (let [key, data] of data.entries()) {
     // changes key into $key so that they can be used as params
-    params["$" + key] = data;
+    params['$' + key] = data;
   }
   db.run(
     `INSERT INTO users (id,username,interests,plannedEvents,dateCreated)
@@ -96,16 +117,16 @@ function createUser(data) {
     $dateCreated
   );`,
     params
-  );
+  ).catch(errorHandler);
 }
 
 function createEvent(data) {
-  data.id = eventID.next();
+  data.id = eventID.next().value();
   data.dateCreated = Date.now();
   var params = {};
   for (let [key, data] of data.entries()) {
     // changes key into $key so that they can be used as params
-    params["$" + key] = data;
+    params['$' + key] = data;
   }
   db.run(
     `INSERT INTO events (id,title,description,date,organization)
@@ -117,74 +138,78 @@ function createEvent(data) {
     $organization
   );`,
     params
-  );
+  ).catch(errorHandler);
 }
 
 function searchOrganizations(query) {
-  return db.all("SELECT (id, name) FROM organizations LIKE $search", {
-    $search: query + "?"
-  });
+  return db.all('SELECT id, name FROM organizations LIKE $search;', {
+    $search: query + '?'
+  }).catch(errorHandler);
 }
 
 function getEventsByOrganization(orgID, next) {
   return db
-    .all("SELECT id FROM events WHERE organization=?;", orgID)
-    .then(formatEvents);
+    .all('SELECT id FROM events WHERE organization=?;', orgID)
+    .then(formatEvents).catch((err) => {
+      console.error(err);
+    }).catch(errorHandler);
 }
 
-function formatEvents(ids) {
+async function formatEvents(ids) {
   // takes in array of event ids
   // outputs object
   var events = [];
   for (let id of ids) {
     events.push(getEvent(id));
   }
-  Promise.all(events).then(events => {
-    var orgIDS = [];
-    for (let event of events) {
-      // get the organization ids in the events
-      if (!orgIDS.includes(event.organization)) {
-        orgIDS.push(event.organization);
-      }
+  var events = await Promise.all(events)
+  var orgIDS = [];
+  for (let event of events) {
+    // get the organization ids in the events
+    if (!orgIDS.includes(event.organization)) {
+      orgIDS.push(event.organization);
     }
-    var orgs = {};
-    var orgPromises;
-    for (let id of orgIDS) {
-      orgPromises.push(getOrganization(id));
-    }
-    Promise.all(orgPromises).then(orgObjects => {
-      for (let org of orgObjects) {
-        orgs[org.id] = org;
-      }
-      for (let event of events) {
-        event.organization = org[events.organization];
-      }
-      return events;
-    });
-  });
+  }
+  var orgs = {};
+  var orgPromises;
+  for (let id of orgIDS) {
+    orgPromises.push(getOrganization(id));
+  }
+  var orgObjects = await Promise.all(orgPromises)
+  for (let org of orgObjects) {
+    orgs[org.id] = org;
+  }
+  for (let event of events) {
+    event.organization = org[events.organization];
+  }
+  return events;
 }
 
 function getEvent(id) {
   return db.get(
-    "SELECT (id, title, description, date, organization) FROM events WHERE id=?",
+    'SELECT * FROM events WHERE id=?',
     id
-  );
+  ).catch(errorHandler);
 }
 
 function getOrganization(id) {
-  return db.get(
-    `SELECT (
-    id, username, name, description, dateCreated, tags
-    ) FROM organizations WHERE id=?`,
-    id
-  );
+  return db.get(`SELECT * FROM organizations WHERE id=?`, id).catch(errorHandler);
 }
 
 function getUser(id) {
   return db.get(
-    `SELECT (
-    id, username, interests, plannedEvents, dateCreated
-    ) FROM users WHERE id=?`,
+    `SELECT * FROM users WHERE id=?;`,
     id
-  );
+  ).catch(errorHandler)
 }
+
+return {
+  createEvent,
+  createOrganization,
+  createUser,
+  getEvent,
+  getEventsByOrganization,
+  getOrganization,
+  getUser,
+  searchOrganizations
+}}
